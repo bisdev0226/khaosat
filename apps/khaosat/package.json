@@ -1,0 +1,30 @@
+{
+  "name": "khaosat",
+  "version": "1.0.0",
+  "description": "Hệ thống khảo sát trực tuyến — điều tra dư luận xã hội",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"node --watch server/index.js\" \"npm --prefix client run dev\"",
+    "dev:server": "node --watch server/index.js",
+    "build": "npm --prefix client run build",
+    "start": "node server/index.js",
+    "migrate": "prisma migrate deploy",
+    "seed": "node prisma/seed.js",
+    "test": "vitest run",
+    "lint": "echo \"(chưa cấu hình linter)\" && exit 0",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prisma": "^6.8.2",
+    "supertest": "^7.1.0",
+    "vitest": "^3.1.3"
+  }
+}

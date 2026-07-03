@@ -1,0 +1,44 @@
+nameOverride: "khaosat"
+replicaCount: 2
+
+image:
+  repository: registry.smartcloud.vn/<team>/khaosat   # VNPT Container Registry — đổi <team>
+  tag: latest
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: registry-cred
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000                                    # server Express nghe :3000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: khaosat.<team>.smartcloud.vn
+  tls: false
+
+healthPath: /health
+
+resources:
+  requests: { cpu: 100m, memory: 256Mi }
+  limits:   { cpu: "1",  memory: 1Gi }
+
+# Env non-secret (ConfigMap)
+config:
+  NODE_ENV: "production"
+  PORT: "3000"
+
+# Env secret — prod nên dùng existingSecret (đừng commit giá trị thật).
+# Cần: DATABASE_URL (postgresql://...) + ADMIN_KEY (khóa quản trị — bắt buộc đổi).
+existingSecret: ""
+secretData:
+  DATABASE_URL: "postgresql://user:pass@postgres-host:5432/khaosat"
+  ADMIN_KEY: "doi-khoa-nay-truoc-khi-chay"
+
+# Job migrate+seed chạy 1 lần mỗi install/upgrade (Helm hook)
+migrate:
+  enabled: true
+  script: "npx prisma migrate deploy && npm run seed"

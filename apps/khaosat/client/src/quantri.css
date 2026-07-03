@@ -1,0 +1,39 @@
+/* ===== Bổ sung riêng cho trang quản trị (import trong QuanTri.jsx) ===== */
+
+/* Thẻ hẹp giữa trang (màn đăng nhập) */
+.the-hep { max-width: 420px; margin: 10vh auto 0; }
+
+/* Dãy nút thao tác trong bảng / thanh công cụ */
+.hang-thao-tac { display: flex; flex-wrap: wrap; gap: 6px; }
+.thanh-cong-cu { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+
+/* Khối soạn một câu hỏi trong form builder */
+.khoi-cau-hoi {
+  border: 1px solid var(--vien);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  background: #fafbfc;
+}
+.dau-khoi { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.dau-khoi .o-chon { width: auto; max-width: 260px; }
+.day-phai { margin-left: auto; display: inline-flex; gap: 6px; }
+
+/* Ô nhập phụ trong builder */
+.vung-nhap-ngan { min-height: 64px; }
+.cach-tren-nho { margin-top: 8px; }
+.o-so { width: 96px; display: inline-block; }
+.hang-so { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; margin-top: 8px; font-size: 0.92rem; }
+
+/* Chọn màu nền: ô màu + ô text đi cặp */
+.o-mau { display: flex; gap: 8px; align-items: center; }
+.o-mau input[type='color'] {
+  width: 46px;
+  height: 40px;
+  padding: 2px;
+  border: 1px solid var(--vien-dam);
+  border-radius: 8px;
+  background: #fff;
+  flex: none;
+  cursor: pointer;
+}

@@ -1,0 +1,86 @@
+// Mô hình dữ liệu khảo sát — đặt tên theo hệ thống tham chiếu (dieutradlxh.tuyengiaodanvan.vn)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model KhaoSat {
+  id                     String    @id @default(uuid())
+  tieuDe                 String
+  header                 String?
+  footer                 String?
+  logo                   String?
+  background             String?   @default("#eeecec")
+  thoiGianBatDau         DateTime?
+  thoiGianKetThuc        DateTime?
+  isActive               Boolean   @default(true)
+  isViewKQ               Boolean   @default(false)
+  // Thu thập thông tin người trả lời
+  isNhapThongTin         Boolean   @default(false)
+  isNhapThongTinRequired Boolean   @default(false)
+  isTen                  Boolean   @default(false)
+  isEmail                Boolean   @default(false)
+  isDienThoai            Boolean   @default(false)
+  isNamSinh              Boolean   @default(false)
+  isDiaChi               Boolean   @default(false)
+  isGioiTinh             Boolean   @default(false)
+  createdAt              DateTime  @default(now())
+  cauHois                CauHoi[]
+  ketQuas                KetQua[]
+}
+
+// maLoaiCauHoi: 2=Chọn nhiều  3=Chọn một  4=Nhập text  5=Ma trận chọn nhiều
+// 6=Ma trận chọn một  7=Nhóm câu hỏi  8=Nhập số  9=Yes/No  10=Chọn năm
+// 11=Chọn tỉnh/thành phố  12=Chọn ngày
+model CauHoi {
+  id               String      @id @default(uuid())
+  khaoSatId        String
+  khaoSat          KhaoSat     @relation(fields: [khaoSatId], references: [id], onDelete: Cascade)
+  noiDung          String
+  maLoaiCauHoi     Int
+  isBatBuoc        Boolean     @default(false)
+  isLyDoKhac       Boolean     @default(false)
+  thuTu            Int         @default(1)
+  cauHoiChaId      String?
+  cauHoiCha        CauHoi?     @relation("CauHoiCha", fields: [cauHoiChaId], references: [id], onDelete: Cascade)
+  cauHoiCon        CauHoi[]    @relation("CauHoiCha")
+  soLuongTraLoiMin Int?
+  soLuongTraLoiMax Int?
+  maxLength        Int?
+  cauTraLoi        CauTraLoi[]
+  chiTiets         ChiTietKetQua[]
+}
+
+model CauTraLoi {
+  id       String          @id @default(uuid())
+  cauHoiId String
+  cauHoi   CauHoi          @relation(fields: [cauHoiId], references: [id], onDelete: Cascade)
+  noiDung  String
+  thuTu    Int             @default(1)
+  chiTiets ChiTietKetQua[]
+}
+
+model KetQua {
+  id           String          @id @default(uuid())
+  khaoSatId    String
+  khaoSat      KhaoSat         @relation(fields: [khaoSatId], references: [id], onDelete: Cascade)
+  nguoiKhaoSat String? // JSON: {ten,email,dienThoai,namSinh,diaChi,gioiTinh}
+  createdAt    DateTime        @default(now())
+  chiTiets     ChiTietKetQua[]
+}
+
+model ChiTietKetQua {
+  id          String     @id @default(uuid())
+  ketQuaId    String
+  ketQua      KetQua     @relation(fields: [ketQuaId], references: [id], onDelete: Cascade)
+  cauHoiId    String
+  cauHoi      CauHoi     @relation(fields: [cauHoiId], references: [id], onDelete: Cascade)
+  cauTraLoiId String?
+  cauTraLoi   CauTraLoi? @relation(fields: [cauTraLoiId], references: [id], onDelete: SetNull)
+  isKhac      Boolean    @default(false)
+  noiDung     String? // giá trị text/số/năm/tỉnh-thành hoặc nội dung "ý kiến khác"
+}
