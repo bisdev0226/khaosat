@@ -1,0 +1,22 @@
+# Render Blueprint — deploy app khảo sát (apps/khaosat) từ monorepo này.
+# Kết nối: Render Dashboard → New + → Blueprint → chọn repo này → Apply.
+# Render tự đọc file này, không cần cấu hình tay.
+services:
+  - type: web
+    name: khaosat
+    runtime: node
+    plan: free
+    region: singapore          # gần VN nhất trong các region free
+    rootDir: apps/khaosat       # app nằm trong thư mục con của monorepo
+    branch: main
+    buildCommand: npm install && npm install --prefix client && npm run build
+    startCommand: npm run migrate && npm run seed && npm start
+    healthCheckPath: /health
+    autoDeploy: true            # push lên main là tự deploy lại
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: DATABASE_URL       # SQLite trên ổ tạm; seed lại mỗi lần khởi động
+        value: file:./prod.db
+      - key: ADMIN_KEY          # ĐỔI trong Dashboard nếu dùng lâu dài
+        value: khaosat-demo-2026
