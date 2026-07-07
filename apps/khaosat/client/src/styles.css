@@ -178,9 +178,62 @@ a:hover { text-decoration: underline; }
 .mo-nhat { color: var(--chu-mo); }
 .cach-tren { margin-top: 16px; }
 
+/* ===== Masthead cơ quan (Sở Tư pháp) ===== */
+.mh {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid var(--do-co);
+  padding-bottom: 14px; margin-bottom: 16px;
+  text-align: left;
+}
+.mh-trai { display: flex; align-items: center; gap: 12px; }
+.mh-emblem { width: 52px; height: 52px; color: var(--do-co); flex: none; }
+.mh-coquan { font-weight: 800; color: var(--do-dam); font-size: 1.02rem; letter-spacing: 0.2px; }
+.mh-diachi { color: var(--chu-mo); font-size: 0.86rem; margin-top: 2px; }
+.mh-phai { text-align: right; max-width: 340px; }
+.mh-phieu-so { font-weight: 800; color: var(--do-co); }
+.mh-doi-tuong { color: var(--chu-mo); font-size: 0.86rem; font-style: italic; margin-top: 2px; }
+
+/* ===== Trang chủ — giới thiệu cuộc khảo sát ===== */
+.trang-chu { padding-top: 32px; }
+.the-gioi-thieu { border-top: 6px solid var(--do-co); }
+.tieu-de-chien-dich {
+  color: var(--do-dam); font-size: 1.4rem; font-weight: 800; line-height: 1.4;
+  text-align: center; text-transform: uppercase; margin: 6px 0 14px;
+}
+.gioi-thieu-chien-dich { text-align: justify; margin: 0; }
+.tieu-de-muc {
+  font-weight: 700; color: var(--do-dam); font-size: 1.1rem;
+  margin: 22px 0 12px; text-align: center;
+}
+.luoi-phieu { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.the-phieu {
+  display: flex; flex-direction: column; gap: 10px;
+  border-left: 5px solid var(--do-co); margin-bottom: 0;
+}
+.phieu-so {
+  display: inline-block; align-self: flex-start;
+  background: var(--do-co); color: #fff; font-weight: 700;
+  padding: 3px 14px; border-radius: 999px; font-size: 0.9rem;
+}
+.phieu-doi-tuong { font-weight: 600; flex: 1; }
+.phieu-nut { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+.ghi-chu-bao-mat {
+  background: #fffaeb; border: 1px solid var(--vang); color: #7a5c00;
+  text-align: justify; font-size: 0.92rem;
+}
+.chan-trang {
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--chu-mo); font-size: 0.85rem; padding: 8px 4px 0;
+}
+
 @media (max-width: 640px) {
   .the { padding: 18px 14px; }
   .luoi-form { grid-template-columns: 1fr; }
   .hang-bieu-do { grid-template-columns: 1fr; gap: 4px; }
   .so-bieu-do { text-align: left; }
+  .luoi-phieu { grid-template-columns: 1fr; }
+  .mh { flex-direction: column; align-items: flex-start; }
+  .mh-phai { text-align: left; }
+  .tieu-de-chien-dich { font-size: 1.18rem; }
 }

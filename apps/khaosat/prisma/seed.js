@@ -1,12 +1,11 @@
-// Seed các khảo sát mẫu:
-//  - khao-sat-nq57.json     : định dạng hệ thống tham chiếu (chuanHoaThamChieu)
-//  - attp-cbcc.json         : định dạng builder (nạp thẳng) — Phiếu ATTP số 01 (CBCC)
-//  - attp-nguoi-dan.json    : định dạng builder (nạp thẳng) — Phiếu ATTP số 02 (Người dân)
+// Seed các phiếu khảo sát An toàn thực phẩm (Sở Tư pháp Đắk Lắk):
+//  - attp-cbcc.json         : Phiếu số 01 (cán bộ, công chức, viên chức)
+//  - attp-nguoi-dan.json    : Phiếu số 02 (người dân, hộ kinh doanh, cơ sở nhỏ lẻ)
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PrismaClient } from '@prisma/client'
-import { taoKhaoSat, chuanHoaThamChieu } from '../server/lib/nhapKhaoSat.js'
+import { taoKhaoSat } from '../server/lib/nhapKhaoSat.js'
 
 const prisma = new PrismaClient()
 const DATA = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../data')
@@ -30,14 +29,7 @@ async function seedMot(payload, nhan) {
 }
 
 async function main() {
-  // 1) Khảo sát tham chiếu NQ57
-  const nq57 = chuanHoaThamChieu(doc('khao-sat-nq57.json'))
-  nq57.isActive = true
-  nq57.isViewKQ = true
-  nq57.thoiGianKetThuc = new Date('2030-12-31T23:59:59')
-  await seedMot(nq57, 'NQ57 (tham chiếu)')
-
-  // 2) + 3) Hai phiếu An toàn thực phẩm (builder-format, đã có sẵn thời gian mở)
+  // Hai phiếu An toàn thực phẩm (builder-format)
   for (const [ten, nhan] of [
     ['attp-cbcc.json', 'ATTP 01 — CBCC'],
     ['attp-nguoi-dan.json', 'ATTP 02 — Người dân'],

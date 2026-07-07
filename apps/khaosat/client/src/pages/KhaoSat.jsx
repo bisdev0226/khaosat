@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../api.js'
-import { GIOI_TINH, LOAI, dinhDangThoiGian, dsNam } from '../constants.js'
+import { GIOI_TINH, LOAI, dinhDangThoiGian, dsNam, thongTinPhieu } from '../constants.js'
 import CauHoiItem from '../components/CauHoiItem.jsx'
+import Masthead from '../components/Masthead.jsx'
 
 // Gom id của câu hỏi và toàn bộ câu con (đệ quy) — dùng tìm thẻ gốc chứa lỗi
 function gomId(cauHoi) {
@@ -350,8 +351,20 @@ export default function KhaoSat() {
   return (
     <div className="trang" style={{ backgroundColor: khaoSat.background || '#eeecec' }}>
       <div className="khung">
-        {/* Thẻ đầu: logo, tiêu đề, header, thời gian */}
+        {/* Thẻ đầu: masthead cơ quan, tiêu đề, header, thời gian */}
         <div className="the the-dau">
+          <Masthead
+            phu={(() => {
+              const { so, doiTuong } = thongTinPhieu(khaoSat.tieuDe)
+              if (!so && !doiTuong) return null
+              return (
+                <>
+                  {so != null && <div className="mh-phieu-so">PHIẾU SỐ {String(so).padStart(2, '0')}</div>}
+                  {doiTuong && <div className="mh-doi-tuong">{doiTuong}</div>}
+                </>
+              )
+            })()}
+          />
           {khaoSat.logo && <img className="logo-khao-sat" src={khaoSat.logo} alt="Logo" />}
           <h1 className="tieu-de-khao-sat">{khaoSat.tieuDe}</h1>
           {khaoSat.header && (
